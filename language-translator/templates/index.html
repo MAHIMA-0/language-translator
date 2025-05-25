@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Language Translator</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <!-- Select2 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+
+    <!-- Select2 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+    <script>
+    $(document).ready(function() {
+        // Initialize Select2 on all select elements
+        $('select').select2({
+            width: '300px'  // Optional: control the width
+        });
+    });
+    </script>
+</head>
+<body>
+    <h2><i><u>Language Translator</u></i></h2><hr>
+    <div class="container">
+        <form method="POST" action="/">
+            <label><i>From:</i></label>
+            <select name="src_lang">
+                {% for code, name in languages.items() %}
+                    <option value="{{ code }}" {% if code == selected_src %}selected{% endif %}>{{ name }}</option>
+                {% endfor %}
+            </select><br><br>
+
+            <label><i>To:</i></label>
+            <select name="dest_lang">
+                {% for code, name in languages.items() %}
+                    <option value="{{ code }}" {% if code == selected_dest %}selected{% endif %}>{{ name }}</option>
+                {% endfor %}
+            </select><br><br>
+
+            <label><i>Enter Text:</i></label><br>
+            <textarea name="text" rows="4" cols="50">{{ original_text }}</textarea><br><br>
+
+            <input type="submit" value="Translate">
+        </form>
+
+    {% if translated_text %}
+        <h3><i>Translated Text:</i></h3>
+         <textarea name="text" rows="4" cols="50">{{ translated_text }}</textarea>
+    {% endif %}
+    </div>
+</body>
+</html>
